@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-img = Image.open('test.png').convert('L')
+img = Image.open('input/1.png').convert('L')
 arr = np.asarray(img)
 height, width = arr.shape
 
@@ -43,7 +43,7 @@ def high_speed_test(arr: np.array, threshold: int, x: int, y: int) -> bool:
             brighter_count += 1
         if arr[y+dy, x+dx] < arr[y, x] - threshold:
             darker_count += 1
-    if brighter_count >= 3 or darker_count >= 3:
+    if brighter_count >= 2 or darker_count >= 2:
         return True
     else:
         return False
