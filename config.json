@@ -1,10 +1,10 @@
 {
     "image_path": "input/1.png",
-    "resize_acceleration": true,
+    "resize_acceleration": false,
     "threshold": 20,
-    "n": 9,
+    "n": 12,
     "max_size": 300,
     "nms_type": "grid",
-    "grid_or_window_size": 3,
+    "grid_or_window_size": 30,
     "draw_radius": 2
 }
