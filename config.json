@@ -1,8 +1,9 @@
 {
     "image_path": "input/1.png",
+    "resize_acceleration": true,
     "threshold": 20,
     "n": 9,
     "max_size": 300,
-    "grid_size": 5,
+    "grid_size": 3,
     "draw_radius": 2
 }

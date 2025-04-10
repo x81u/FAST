@@ -13,6 +13,7 @@ with open('./config.json', 'r') as f:
     config = json.loads(data)
 
 image_path = config['image_path']
+resize_acceleration = config['resize_acceleration']
 threshold = config['threshold']
 n = config['n']
 max_size = config['max_size']
@@ -27,8 +28,12 @@ if __name__ == '__main__':
     ori_height, ori_width = ori_image.shape
 
     # Resize
-    target_height, target_width = calculate_target_size(ori_height, ori_width, max_size)
-    resized_image = resize_image(ori_image, target_height, target_width)
+    if resize_acceleration:
+        target_height, target_width = calculate_target_size(ori_height, ori_width, max_size)
+        resized_image = resize_image(ori_image, target_height, target_width)
+    else:
+        target_height, target_width = ori_height, ori_width
+        resized_image = ori_image
 
     # Fast Keypoint Detection 
     start_time = time.time()
@@ -45,6 +50,6 @@ if __name__ == '__main__':
     print(f"Detected corners after NMS: {len(filtered_corners)}")
 
     # Mapping and Visualization
-    mapped_corners = map_keypoints_to_original(corners, ori_height, ori_width, target_height, target_width)
+    mapped_corners = map_keypoints_to_original(filtered_corners, ori_height, ori_width, target_height, target_width)
     img_rgb = img.convert("RGB")
     draw_keypoints_to_image(img_rgb, mapped_corners, ori_width, ori_height, draw_radius, file_name)
