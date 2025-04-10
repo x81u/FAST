@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 from PIL import Image, ImageDraw
 
 def calculate_target_size(ori_height: int, ori_width: int, max_size: int) -> tuple[int, int]:
@@ -33,7 +34,7 @@ def map_keypoints_to_original(keypoints: list[int], ori_height: int, ori_width: 
     mapped_keypoints = [(int(x * x_ratio), int(y * y_ratio)) for x, y in keypoints]
     return mapped_keypoints
 
-def draw_keypoints_to_image(image: Image.Image, corners: list[tuple[int, int]], width: int, height: int, draw_radius: int, output_path: str) -> None:
+def draw_keypoints_to_image(image: Image.Image, corners: list[tuple[int, int]], width: int, height: int, draw_radius: int, file_name: str) -> None:
     img_rgb = image.convert("RGB")
     draw = ImageDraw.Draw(img_rgb)
 
@@ -42,9 +43,10 @@ def draw_keypoints_to_image(image: Image.Image, corners: list[tuple[int, int]], 
     dpi = 100
     figsize = (width / dpi, height / dpi)
 
+    os.makedirs('output', exist_ok=True)
     plt.figure(figsize=figsize, dpi=dpi)
     plt.imshow(img_rgb)
     plt.axis("off")
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    plt.savefig(output_path)
+    plt.savefig(os.path.join('output', file_name+'.png'))
     plt.show()

@@ -17,8 +17,8 @@ threshold = config['threshold']
 n = config['n']
 max_size = config['max_size']
 grid_size = config['grid_size']
-output_path = config['output_path']
 draw_radius = config['draw_radius']
+file_name = image_path.split('.')[0].split('/')[-1]
 
 if __name__ == '__main__':
     # Read Image
@@ -47,4 +47,4 @@ if __name__ == '__main__':
     # Mapping and Visualization
     mapped_corners = map_keypoints_to_original(corners, ori_height, ori_width, target_height, target_width)
     img_rgb = img.convert("RGB")
-    draw_keypoints_to_image(img_rgb, mapped_corners, ori_width, ori_height, draw_radius, output_path)
+    draw_keypoints_to_image(img_rgb, mapped_corners, ori_width, ori_height, draw_radius, file_name)
