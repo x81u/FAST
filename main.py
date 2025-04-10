@@ -1,6 +1,6 @@
 from FAST.utils import calculate_target_size, resize_image, map_keypoints_to_original, draw_keypoints_to_image
 from FAST.detector import fast_keypoint_detector
-from FAST.functions import non_max_suppression
+from FAST.functions import non_max_suppression_grid, non_max_suppression_window
 
 from PIL import Image
 import numpy as np
@@ -17,7 +17,8 @@ resize_acceleration = config['resize_acceleration']
 threshold = config['threshold']
 n = config['n']
 max_size = config['max_size']
-grid_size = config['grid_size']
+nms_type = config['nms_type']
+grid_or_window_size = config['grid_or_window_size']
 draw_radius = config['draw_radius']
 file_name = image_path.split('.')[0].split('/')[-1]
 
@@ -44,7 +45,13 @@ if __name__ == '__main__':
 
     # Non-Maximum Suppression
     start_time = time.time()
-    filtered_corners = non_max_suppression(corners, resized_image, grid_size)
+    if nms_type == "grid":
+        filtered_corners = non_max_suppression_grid(corners, resized_image, grid_or_window_size)
+    elif nms_type == "window":
+        filtered_corners = non_max_suppression_window(corners, resized_image, grid_or_window_size)
+    else:
+        filtered_corners = corners
+        print('Not Using NMS.')
     end_time = time.time()
     print(f"NMS Execution Time: {(end_time - start_time):.2f} s")
     print(f"Detected corners after NMS: {len(filtered_corners)}")

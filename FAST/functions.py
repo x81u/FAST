@@ -39,7 +39,7 @@ def high_speed_test(image: np.ndarray, threshold: int, x: int, y: int) -> bool:
     else:
         return False
 
-def non_max_suppression(corners: list[tuple[int, int]], image: np.ndarray, grid_size: int = 5) -> list[tuple[int, int]]:
+def non_max_suppression_grid(corners: list[tuple[int, int]], image: np.ndarray, grid_size: int = 5) -> list[tuple[int, int]]:
     if not corners:
         return []
 
@@ -55,4 +55,28 @@ def non_max_suppression(corners: list[tuple[int, int]], image: np.ndarray, grid_
             grid_map[grid_key] = (score, (x, y))
 
     filtered_corners = [corner for _, corner in grid_map.values()]
+    return filtered_corners
+
+def non_max_suppression_window(corners: list[tuple[int, int]], image: np.ndarray, window_size: int = 5) -> list[tuple[int, int]]:
+    if not corners:
+        return []
+
+    scores = []
+    for x, y in corners:
+        center = int(image[y, x])
+        score = sum(abs(int(image[y + dy, x + dx]) - center) for dx, dy in circle_offsets)
+        scores.append(score)
+
+    half_window = window_size // 2
+    filtered_corners = []
+    for i, (x, y) in enumerate(corners):
+        is_max = True
+        for j, (x2, y2) in enumerate(corners):
+            if i != j and abs(x - x2) <= half_window and abs(y - y2) <= half_window:
+                if scores[j] > scores[i]:
+                    is_max = False
+                    break
+        if is_max:
+            filtered_corners.append((x, y))
+
     return filtered_corners

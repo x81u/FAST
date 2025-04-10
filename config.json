@@ -4,6 +4,7 @@
     "threshold": 20,
     "n": 9,
     "max_size": 300,
-    "grid_size": 3,
+    "nms_type": "grid",
+    "grid_or_window_size": 3,
     "draw_radius": 2
 }
