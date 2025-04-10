@@ -1,0 +1,9 @@
+{
+    "image_path": "input/1.png",
+    "threshold": 20,
+    "n": 9,
+    "max_size": 300,
+    "grid_size": 5,
+    "output_path": "./output.png",
+    "draw_radius": 2
+}
